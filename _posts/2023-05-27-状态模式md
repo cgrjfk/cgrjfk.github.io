@@ -1,0 +1,82 @@
+---
+layout:     post
+title:      状态模式
+subtitle:   Java
+date:       2023-05-27
+author:     Rui
+header-img: img/post-bg-iWatch.jpg
+catalog: true
+tags:
+    - 状态模式
+---
+### 前言
+最近我在学设计模式，我打算用博客的形式来记录我的学习过程，这是状态模式。
+### 简介
+状态模式（State Pattern）是一种行为设计模式，它允许对象在内部状态发生改变时改变其行为。状态模式通过将对象的行为封装在不同的状态类中，使得对象在不同的状态下可以具有不同的行为，同时将状态的变化逻辑从对象中分离出来，提高了代码的可维护性和扩展性。
+### 正文
+
+状态模式（State Pattern）是一种行为设计模式，它允许对象在内部状态发生改变时改变其行为。状态模式通过将对象的行为封装在不同的状态类中，使得对象在不同的状态下可以具有不同的行为，同时将状态的变化逻辑从对象中分离出来，提高了代码的可维护性和扩展性。
+
+在状态模式中，关键的参与者包括上下文（Context）和状态（State）。上下文是包含状态的对象，它在不同的状态下可以有不同的行为。状态是抽象类或接口，定义了具体状态类所需实现的方法，每个具体状态类对应于上下文的一种状态，并负责处理特定状态下的行为。上下文通过持有当前状态的引用，将具体的行为委托给当前状态对象。
+
+通过使用状态模式，我们可以将对象的行为与其状态解耦，使得状态的变化对对象来说是透明的。这种设计模式适用于当对象的行为随着内部状态的改变而改变，并且需要在运行时动态地添加新的状态时。
+
+### 代码示例
+```java
+// 定义状态接口
+interface State {
+    void handle();
+}
+
+// 具体状态类A
+class ConcreteStateA implements State {
+    public void handle() {
+        System.out.println("State A");
+    }
+}
+
+// 具体状态类B
+class ConcreteStateB implements State {
+    public void handle() {
+        System.out.println("State B");
+    }
+}
+
+// 上下文类
+class Context {
+    private State currentState;
+
+    public void setState(State state) {
+        currentState = state;
+    }
+
+    public void request() {
+        currentState.handle();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Context context = new Context();
+        
+        State stateA = new ConcreteStateA();
+        context.setState(stateA);
+        context.request(); // 输出 "State A"
+
+        State stateB = new ConcreteStateB();
+        context.setState(stateB);
+        context.request(); // 输出 "State B"
+    }
+}
+```
+### UML图
+[、![Chain-of-Responsibility.png](https://i.postimg.cc/SNhYgG1Q/Chain-of-Responsibility.png)
+
+### 分析
+在上述示例中，`State`是状态接口，定义了具体状态类需要实现的方法`handle`。`ConcreteStateA`和`ConcreteStateB`是具体的状态类，分别实现了不同状态下的行为。`Context`是上下文类，持有当前状态的引用，并将具体的行为委托给当前状态对象。在`Main`类中，我们创建了一个上下文对象，并通过切换不同的状态对象来改变行为。
+### 总结
+状态模式的核心思想是将对象的状态封装成独立的类，并通过委托来实现不同状态下的行为。这样做的好处是，当对象的状态发生改变时，不需要改变对象本身的代码，而是可以通过切换不同的状态对象来改变行为。这种解耦的方式使得状态模式具有良好的可扩展性和灵活性，同时遵循了开闭原则。
+
+
+
+
